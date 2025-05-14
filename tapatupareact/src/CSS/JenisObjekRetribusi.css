@@ -1,0 +1,123 @@
+.jenis-objek-retribusi-container {
+    font-family: sans-serif;
+    padding: 20px;
+}
+
+h2 {
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.add-button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-bottom: 20px;
+}
+
+.add-button:hover {
+    background-color: #0056b3;
+}
+
+.add-form, .edit-form {
+    background-color: #f8f9fa;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    border: 1px solid #dee2e6;
+}
+
+.add-form h3, .edit-form h3 {
+    margin-top: 0;
+    margin-bottom: 15px;
+    color: #555;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    color: #333;
+    font-weight: bold;
+}
+
+.form-group input[type="text"],
+.form-group textarea {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+.form-group textarea {
+    resize: vertical;
+    min-height: 80px;
+}
+
+.save-button, .cancel-button {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-right: 10px;
+}
+
+.cancel-button {
+    background-color: #dc3545;
+}
+
+.save-button:hover {
+    background-color: #1e7e34;
+}
+
+.cancel-button:hover {
+    background-color: #c82333;
+}
+
+.jenis-objek-retribusi-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.jenis-objek-retribusi-table th,
+.jenis-objek-retribusi-table td {
+    border: 1px solid #dee2e6;
+    padding: 8px;
+    text-align: left;
+}
+
+.jenis-objek-retribusi-table th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+}
+
+.edit-button-table, .delete-button-table {
+    background-color: transparent;
+    border: none;
+    color: #007bff;
+    cursor: pointer;
+    margin-right: 5px;
+    padding: 0;
+}
+
+.delete-button-table {
+    color: #dc3545;
+}
+
+.edit-button-table:hover, .delete-button-table:hover {
+    opacity: 0.8;
+}
+
+.aksi-column {
+    white-space: nowrap;
+}
