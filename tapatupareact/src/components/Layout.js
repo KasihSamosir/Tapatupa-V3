@@ -1,6 +1,6 @@
 import React from 'react';
 import Sidebar from './Sidebar';
-import Header from './Header'; // Jika Anda punya header
+import Header from './Header'; 
 import '../CSS/Layout.css'; // Styling untuk layout
 
 const Layout = ({ children }) => {
