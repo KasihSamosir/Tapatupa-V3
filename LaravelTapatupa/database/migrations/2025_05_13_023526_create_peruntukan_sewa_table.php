@@ -1,4 +1,5 @@
 <?php
+
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -12,8 +13,9 @@ class CreatePeruntukanSewaTable extends Migration
             $table->string('jenisKegiatan');
             $table->string('peruntukanSewa');
             $table->text('keterangan')->nullable();
-            $table->timestamps();
+            $table->timestamps(); // created_at dan updated_at
             $table->boolean('isDeleted')->default(false);
+            $table->softDeletes(); // Untuk soft delete
         });
     }
 
