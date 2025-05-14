@@ -1,4 +1,5 @@
 <?php
+
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -13,6 +14,7 @@ class CreateJenisStatusTable extends Migration
             $table->text('keterangan')->nullable();
             $table->boolean('isDeleted')->default(false);
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

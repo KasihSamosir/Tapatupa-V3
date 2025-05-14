@@ -1,4 +1,5 @@
 <?php
+
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -9,12 +10,14 @@ class CreateStatusTable extends Migration
     {
         Schema::create('status', function (Blueprint $table) {
             $table->id('idStatus');
-            $table->unsignedBigInteger('namaStatus');
+            $table->unsignedBigInteger('idJenisStatus'); // Menggunakan nama yang sesuai dengan relasi
+            $table->string('namaStatus'); // Nama status yang lebih spesifik
             $table->text('keterangan')->nullable();
             $table->boolean('isDeleted')->default(false);
             $table->timestamps();
+            $table->softDeletes(); // Tambahkan soft deletes
 
-            $table->foreign('namaStatus')->references('idJenisStatus')->on('jenis_status')->restrictOnDelete();
+            $table->foreign('idJenisStatus')->references('idJenisStatus')->on('jenis_status')->restrictOnDelete();
         });
     }
 
