@@ -1,0 +1,125 @@
+/* Container utama sidebar */
+.sidebar-container {
+  width: 250px;
+  height: 100vh;
+  background-color: transparent;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  position: relative;
+}
+
+/* Konten sidebar putih yang lebih pendek */
+.sidebar-content {
+  background-color: #FFFEFA;
+  padding-bottom: 0px;
+  border-bottom-left-radius: 30px;
+  border-bottom-right-radius: 30px;
+  overflow-y: auto;
+  z-index: 2;
+  position: relative;
+  height: calc(100vh - 80px); 
+}
+
+.sidebar-content::-webkit-scrollbar {
+  width: 6px;
+}
+
+.sidebar-content::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+}
+
+.logo-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem 0;
+}
+
+.sidebar-logo {
+  width: 130px;
+  height: auto;
+}
+
+.nav-links {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+/* ... rule CSS lain di Sidebar.css ... */
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  padding: 5px 20px; /* Coba kurangi padding vertikal juga */
+  gap: 10px;
+  color: #000;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background 0.2s;
+  margin-bottom: 3px; /* Kurangi atau hilangkan margin-bottom */
+  text-decoration: none;
+}
+
+.nav-item:hover {
+  background-color: #f0f0f0;
+}
+
+/* Style untuk item navigasi yang aktif */
+.nav-item.active {
+  background-color: #0C756F; /* Latar belakang hijau aktif */
+  color: #FDCF6F; /* Warna teks aktif emas */
+  font-weight: bold; /* Teks aktif bold */
+  border-radius: 30px;
+  width: 240px; /* Lebar tetap seperti item lain */
+}
+
+/* Style untuk link di dalam item navigasi yang aktif */
+.nav-item.active a {
+  color: inherit; /* Mewarisi warna dari .nav-item.active */
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 12px 20px; /* Padding tetap sama dengan item lain */
+}
+
+/* Style untuk ikon di dalam item navigasi yang aktif */
+.nav-item.active svg {
+  color: #FDCF6F;
+}
+
+/* Style default untuk link */
+.nav-item a {
+  color: inherit;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 12px 20px;
+}
+
+.nav-item a:hover {
+  text-decoration: none;
+}
+
+
+
+/* Kotak admin di luar sidebar-content dan lebih ke bawah */
+.admin-box {
+  width: 100%;
+  background-color: #0C756F;
+  color: white;
+  padding: 28px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: -30px;
+  z-index: 1;
+  position: relative;
+  margin-right: 50px;
+}

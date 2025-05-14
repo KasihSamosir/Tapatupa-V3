@@ -1,0 +1,126 @@
+.jenis-permohonan-container {
+    padding: 20px;
+    font-family: sans-serif;
+}
+
+h2 {
+    margin-bottom: 20px;
+}
+
+.add-button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-bottom: 20px;
+}
+
+.add-button:hover {
+    background-color: #0056b3;
+}
+
+.jenis-permohonan-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.jenis-permohonan-table th,
+.jenis-permohonan-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+.jenis-permohonan-table th {
+    background-color: #f2f2f2;
+}
+
+.edit-button,
+.delete-button {
+    background: none;
+    border: none;
+    padding: 5px;
+    margin-right: 5px;
+    cursor: pointer;
+}
+
+.edit-button svg {
+    fill: orange;
+}
+
+.delete-button svg {
+    fill: red;
+}
+
+.add-form {
+    background-color: #f9f9f9;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+}
+
+.add-form h3 {
+    margin-top: 0;
+    margin-bottom: 15px;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.form-group input[type="text"],
+.form-group textarea,
+.form-group select {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-size: 16px;
+}
+
+.save-button,
+.cancel-button {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-right: 10px;
+}
+
+.cancel-button {
+    background-color: #dc3545;
+}
+
+.save-button:hover {
+    background-color: #1e7e34;
+}
+
+.cancel-button:hover {
+    background-color: #c82333;
+}
+.edit-form {
+    background-color: #f9f9f9;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+}
+
+.edit-form h3 {
+    margin-top: 0;
+    margin-bottom: 15px;
+}

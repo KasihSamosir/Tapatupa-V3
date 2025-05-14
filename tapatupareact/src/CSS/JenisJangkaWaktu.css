@@ -1,0 +1,127 @@
+.jenis-jangka-waktu-container {
+    padding: 20px;
+    font-family: sans-serif;
+}
+
+h2 {
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.add-button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-bottom: 20px;
+}
+
+.add-button:hover {
+    background-color: #0056b3;
+}
+
+.add-form, .edit-form {
+    margin-bottom: 20px;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+}
+
+.add-form h3, .edit-form h3 {
+    margin-top: 0;
+    margin-bottom: 15px;
+    color: #555;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #333;
+}
+
+.form-group input[type="text"],
+.form-group textarea {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+.form-group textarea {
+    resize: vertical;
+}
+
+.save-button, .cancel-button, .save-changes-button {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-right: 10px;
+}
+
+.cancel-button {
+    background-color: #dc3545;
+}
+
+.save-button:hover, .cancel-button:hover, .save-changes-button:hover {
+    opacity: 0.9;
+}
+
+.jenis-jangka-waktu-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.jenis-jangka-waktu-table th,
+.jenis-jangka-waktu-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+.jenis-jangka-waktu-table th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+}
+
+.jenis-jangka-waktu-table tbody tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.jenis-jangka-waktu-table .edit-button,
+.jenis-jangka-waktu-table .delete-button {
+    background-color: #ffc107; /* Yellow for edit */
+    color: #333;
+    border: none;
+    padding: 8px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-right: 5px;
+    font-size: 0.9em;
+}
+
+.jenis-jangka-waktu-table .delete-button {
+    background-color: #dc3545; /* Red for delete */
+    color: white;
+}
+
+.jenis-jangka-waktu-table .edit-button:hover,
+.jenis-jangka-waktu-table .delete-button:hover {
+    opacity: 0.8;
+}
+
+.react-bootstrap-icons {
+    margin-right: 5px;
+}

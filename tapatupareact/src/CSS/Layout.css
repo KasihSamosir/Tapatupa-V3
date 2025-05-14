@@ -1,0 +1,27 @@
+/* src/CSS/Layout.css */
+.app-layout {
+  display: flex; /* Menggunakan Flexbox untuk tata letak */
+  min-height: 100vh; /* Memastikan layout setidaknya setinggi viewport */
+}
+
+.sidebar-container { /* Menggunakan nama class dari Sidebar.js */
+  /* Atur lebar sidebar sesuai keinginan Anda */
+  width: 250px;
+  background-color: #f8f9fa; /* Contoh warna latar belakang sidebar */
+  color: #495057; /* Contoh warna teks sidebar */
+  /* Tambahkan style lain sesuai kebutuhan (misalnya, fixed position) */
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Contoh shadow */
+  z-index: 10; /* Pastikan sidebar tidak tertutup konten lain */
+}
+
+.main-content {
+  /* Margin kiri sebesar lebar sidebar agar konten tidak tertutup */
+  margin-left: 250px;
+  flex-grow: 1; /* Membuat konten utama mengisi sisa ruang */
+  padding: 20px; /* Beri padding pada konten utama */
+  box-sizing: border-box; /* Memastikan padding tidak menambah lebar elemen */
+}
