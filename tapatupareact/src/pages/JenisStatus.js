@@ -17,14 +17,17 @@ const JenisStatus = () => {
     }, []);
 
     const fetchJenisStatus = async () => {
-    try {
-        const response = await axios.get('http://127.0.0.1:8000/api/jenis-status');
-        setJenisStatusList(response.data.data);
-        console.log('Data Jenis Status:', response.data.data); // Tambahkan baris ini
-    } catch (err) {
-        setError(err.message);
-    }
-};
+        setLoading(true);
+        try {
+            const response = await axios.get('http://127.0.0.1:8000/api/jenis-status');
+            setJenisStatusList(response.data.data);
+            console.log('Data Jenis Status:', response.data.data);
+            setLoading(false); // Perbaikan: Set loading menjadi false setelah berhasil
+        } catch (err) {
+            setError(err.message);
+            setLoading(false); // Pastikan loading juga di-set false jika terjadi error
+        }
+    };
 
     const handleAddClick = () => {
         setIsAdding(true);

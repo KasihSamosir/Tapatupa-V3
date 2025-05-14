@@ -11,7 +11,7 @@ class LokasiObjekRetribusi extends Model
 
     protected $table = 'lokasi_objek_retribusi';
     protected $primaryKey = 'idLokasiObjekRetribusi';
-    protected $fillable = ['keterangan', 'isDeleted', 'idObjekRetribusi'];
+    protected $fillable = ['lokasiObjekRetribusi', 'keterangan', 'isDeleted'];
     public $timestamps = true;
 
     // Relasi ke Model ObjekRetribusi
