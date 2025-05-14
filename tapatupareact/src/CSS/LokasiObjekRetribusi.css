@@ -1,0 +1,49 @@
+.lokasi-objek-retribusi-container {
+    font-family: sans-serif;
+    margin: 20px;
+}
+
+.lokasi-objek-retribusi-container h2 {
+    color: #333;
+    margin-bottom: 15px;
+}
+
+.lokasi-objek-retribusi-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.lokasi-objek-retribusi-table thead th {
+    background-color: #f0f0f0;
+    color: #333;
+    padding: 10px;
+    text-align: left;
+    border-bottom: 2px solid #ddd;
+}
+
+.lokasi-objek-retribusi-table tbody td {
+    padding: 10px;
+    border-bottom: 1px solid #eee;
+}
+
+.lokasi-objek-retribusi-table tbody tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.lokasi-objek-retribusi-table tbody tr:hover {
+    background-color: #f5f5f5;
+}
+
+.lokasi-objek-retribusi-table th:first-child,
+.lokasi-objek-retribusi-table td:first-child {
+    padding-left: 15px;
+}
+
+.lokasi-objek-retribusi-table th:last-child,
+.lokasi-objek-retribusi-table td:last-child {
+    padding-right: 15px;
+}

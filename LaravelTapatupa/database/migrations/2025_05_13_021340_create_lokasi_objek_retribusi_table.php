@@ -9,6 +9,7 @@ class CreateLokasiObjekRetribusiTable extends Migration
     {
         Schema::create('lokasi_objek_retribusi', function (Blueprint $table) {
             $table->id('idLokasiObjekRetribusi');
+            $table->string('lokasiObjekRetribusi')->default('');
             $table->text('keterangan')->nullable();
             $table->timestamps();
             $table->boolean('isDeleted')->default(false);
