@@ -3,6 +3,8 @@ import axios from 'axios';
 import { PencilSquare, Trash } from 'react-bootstrap-icons';
 import '../CSS/StatusPermohonan.css'; // Jika Anda memiliki file CSS khusus
 
+const API_BASE_URL = 'http://127.0.0.1:8000/api'; // Definisikan API Base URL
+
 const StatusPermohonan = () => {
     const [statusPermohonanList, setStatusPermohonanList] = useState([]);
     const [jenisStatusList, setJenisStatusList] = useState([]); // Untuk dropdown jenis status
@@ -12,6 +14,7 @@ const StatusPermohonan = () => {
     const [newStatusPermohonan, setNewStatusPermohonan] = useState({ idJenisStatus: '', namaStatus: '', keterangan: '' });
     const [isEditing, setIsEditing] = useState(false);
     const [editingItem, setEditingItem] = useState({ idStatus: null, idJenisStatus: '', namaStatus: '', keterangan: '' });
+    const [submitLoading, setSubmitLoading] = useState(false); // State untuk indikator loading saat submit
 
     useEffect(() => {
         fetchStatusPermohonan();
@@ -19,8 +22,10 @@ const StatusPermohonan = () => {
     }, []);
 
     const fetchStatusPermohonan = async () => {
+        setLoading(true);
+        setError(null);
         try {
-            const response = await axios.get('http://127.0.0.1:8000/api/status-permohonan');
+            const response = await axios.get(`${API_BASE_URL}/status-permohonan`);
             setStatusPermohonanList(response.data.data);
             setLoading(false);
             console.log('Data Status Permohonan:', response.data.data); // Tambahkan log
@@ -31,8 +36,9 @@ const StatusPermohonan = () => {
     };
 
     const fetchJenisStatus = async () => {
+        setError(null);
         try {
-            const response = await axios.get('http://127.0.0.1:8000/api/jenis-status');
+            const response = await axios.get(`${API_BASE_URL}/jenis-status`);
             setJenisStatusList(response.data.data);
             console.log('Data Jenis Status:', response.data.data); // Tambahkan log
         } catch (err) {
@@ -56,14 +62,18 @@ const StatusPermohonan = () => {
 
     const handleAddSubmit = async (e) => {
         e.preventDefault();
+        setSubmitLoading(true);
+        setError(null);
         console.log('Data yang akan dikirim saat menambah:', newStatusPermohonan); // Tambahkan log
         try {
-            await axios.post('http://127.0.0.1:8000/api/status-permohonan', newStatusPermohonan);
+            await axios.post(`${API_BASE_URL}/status-permohonan`, newStatusPermohonan);
             fetchStatusPermohonan();
             setIsAdding(false);
             setNewStatusPermohonan({ idJenisStatus: '', namaStatus: '', keterangan: '' });
         } catch (err) {
             setError(err.response?.data?.errors || { message: err.message });
+        } finally {
+            setSubmitLoading(false);
         }
     };
 
@@ -84,21 +94,26 @@ const StatusPermohonan = () => {
 
     const handleEditSubmit = async (e) => {
         e.preventDefault();
+        setSubmitLoading(true);
+        setError(null);
         console.log('Data yang akan dikirim saat mengedit:', editingItem); // Tambahkan log
         try {
-            await axios.put(`http://127.0.0.1:8000/api/status-permohonan/${editingItem.idStatus}`, editingItem);
+            await axios.put(`${API_BASE_URL}/status-permohonan/${editingItem.idStatus}`, editingItem);
             fetchStatusPermohonan();
             setIsEditing(false);
             setEditingItem({ idStatus: null, idJenisStatus: '', namaStatus: '', keterangan: '' });
         } catch (err) {
             setError(err.response?.data?.errors || { message: err.message });
+        } finally {
+            setSubmitLoading(false);
         }
     };
 
     const handleDeleteClick = async (id) => {
         if (window.confirm('Apakah Anda yakin ingin menghapus status permohonan ini?')) {
+            setError(null);
             try {
-                await axios.delete(`http://127.0.0.1:8000/api/status-permohonan/${id}`);
+                await axios.delete(`${API_BASE_URL}/status-permohonan/${id}`);
                 fetchStatusPermohonan();
             } catch (err) {
                 setError(err.message);
@@ -111,7 +126,7 @@ const StatusPermohonan = () => {
     }
 
     if (error) {
-        return <div>Error: {error}</div>;
+        return <div className="error-message">Error: {error}</div>;
     }
 
     return (
@@ -158,8 +173,13 @@ const StatusPermohonan = () => {
                                 onChange={handleAddInputChange}
                             />
                         </div>
-                        <button type="submit" className="save-button">Simpan</button>
-                        <button type="button" className="cancel-button" onClick={handleCancelAdd}>Batal</button>
+                        <button type="submit" className="save-button" disabled={submitLoading}>
+                            {submitLoading ? 'Menyimpan...' : 'Simpan'}
+                        </button>
+                        <button type="button" className="cancel-button" onClick={handleCancelAdd} disabled={submitLoading}>
+                            Batal
+                        </button>
+                        {error && isAdding && <p className="error-message">{error?.message || 'Terjadi kesalahan saat menambah data.'}</p>}
                     </form>
                 </div>
             )}
@@ -203,8 +223,13 @@ const StatusPermohonan = () => {
                                 onChange={handleEditInputChange}
                             />
                         </div>
-                        <button type="submit" className="save-button">Simpan Perubahan</button>
-                        <button type="button" className="cancel-button" onClick={handleCancelEdit}>Batal</button>
+                        <button type="submit" className="save-button" disabled={submitLoading}>
+                            {submitLoading ? 'Menyimpan...' : 'Simpan Perubahan'}
+                        </button>
+                        <button type="button" className="cancel-button" onClick={handleCancelEdit} disabled={submitLoading}>
+                            Batal
+                        </button>
+                        {error && isEditing && <p className="error-message">{error?.message || 'Terjadi kesalahan saat menyimpan perubahan.'}</p>}
                     </form>
                 </div>
             )}
@@ -223,7 +248,7 @@ const StatusPermohonan = () => {
                     {statusPermohonanList.map(item => (
                         <tr key={item.idStatus}>
                             <td>{item.idStatus}</td>
-                            <td>{item.jenis_status?.jenisStatus}</td> {/* PERUBAHAN DI SINI */}
+                            <td>{item.jenis_status?.jenisStatus || '-'}</td> {/* Menangani jika jenis_status null/undefined */}
                             <td>{item.namaStatus}</td>
                             <td>{item.keterangan}</td>
                             <td>

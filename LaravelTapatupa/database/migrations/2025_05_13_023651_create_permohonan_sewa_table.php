@@ -1,4 +1,5 @@
 <?php
+
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -21,6 +22,8 @@ class CreatePermohonanSewaTable extends Migration
             $table->string('createBy');
             $table->boolean('isDeleted')->default(false);
             $table->timestamps();
+            $table->softDeletes(); // Tambahkan softDeletes di sini
+            $table->index('deleted_at'); // Tambahkan index untuk performa
 
             $table->foreign('idJenisPermohonan')->references('idJenisPermohonan')->on('jenis_permohonan')->restrictOnDelete();
             $table->foreign('idWajibRetribusi')->references('idWajibRetribusi')->on('wajib_retribusi')->restrictOnDelete();

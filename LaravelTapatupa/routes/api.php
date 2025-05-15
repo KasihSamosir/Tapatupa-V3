@@ -10,6 +10,9 @@ use App\Http\Controllers\Api\StatusController;
 use App\Http\Controllers\Api\JenisObjekRetribusiController;
 use App\Http\Controllers\Api\LokasiObjekRetribusiController;
 use App\Http\Controllers\Api\ObjekRetribusiController;
+use App\Http\Controllers\Api\WajibRetribusiController;
+use App\Http\Controllers\Api\PermohonanSewaController;
+use App\Http\Controllers\Api\TarifObjekRetribusiController;
 
 Route::get('/jenis-permohonan', [JenisPermohonanController::class, 'index']);
 Route::post('/jenis-permohonan', [JenisPermohonanController::class, 'store']);
@@ -21,3 +24,6 @@ Route::resource('status-permohonan', StatusController::class);
 Route::resource('jenis-objek-retribusi', JenisObjekRetribusiController::class);
 Route::resource('/lokasi-objek-retribusi', LokasiObjekRetribusiController::class)->except(['create', 'edit']);
 Route::resource('/objek-retribusi', ObjekRetribusiController::class)->except(['create', 'edit']);
+Route::apiResource('wajib-retribusi', WajibRetribusiController::class);
+Route::apiResource('permohonan-sewa', PermohonanSewaController::class);
+Route::resource('tarif-objek-retribusi', TarifObjekRetribusiController::class);

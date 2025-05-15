@@ -25,7 +25,7 @@ const ObjekRetribusi = () => {
         latitute: '',
         longitudee: '',
         keterangan: '',
-        gambarDenahTanah: '',
+        gambarDenahTanah: ''
     });
     const [isEditing, setIsEditing] = useState(false);
     const [editingItem, setEditingItem] = useState({
@@ -46,7 +46,7 @@ const ObjekRetribusi = () => {
         latitute: '',
         longitudee: '',
         keterangan: '',
-        gambarDenahTanah: '',
+        gambarDenahTanah: ''
     });
     const [jenisObjekList, setJenisObjekList] = useState([]);
     const [lokasiObjekList, setLokasiObjekList] = useState([]);
@@ -60,6 +60,7 @@ const ObjekRetribusi = () => {
     const fetchObjekRetribusi = async () => {
         try {
             const response = await axios.get('http://127.0.0.1:8000/api/objek-retribusi');
+            console.log("Data Objek Retribusi dari API:", response.data.data); // Tambahkan ini untuk debugging
             setObjekList(response.data.data);
             setLoading(false);
         } catch (err) {
@@ -105,7 +106,7 @@ const ObjekRetribusi = () => {
             latitute: '',
             longitudee: '',
             keterangan: '',
-            gambarDenahTanah: '',
+            gambarDenahTanah: ''
         });
     };
 
@@ -118,10 +119,39 @@ const ObjekRetribusi = () => {
         setNewObjekRetribusi(prevState => ({ ...prevState, [name]: value }));
     };
 
+    const handleAddFileChange = (e) => {
+        setNewObjekRetribusi(prevState => ({ ...prevState, gambarDenahTanah: e.target.files[0] }));
+    };
+
     const handleAddSubmit = async (e) => {
         e.preventDefault();
+        const formData = new FormData();
+        formData.append('idJenisLokasiObjekRetribusi', newObjekRetribusi.idJenisLokasiObjekRetribusi);
+        formData.append('idJenisObjekRetribusi', newObjekRetribusi.idJenisObjekRetribusi);
+        formData.append('kodeObjekRetribusi', newObjekRetribusi.kodeObjekRetribusi);
+        formData.append('noBangunan', newObjekRetribusi.noBangunan);
+        formData.append('jumlahLantai', newObjekRetribusi.jumlahLantai);
+        formData.append('objekRetribusi', newObjekRetribusi.objekRetribusi);
+        formData.append('panjangTanah', newObjekRetribusi.panjangTanah);
+        formData.append('lebarTanah', newObjekRetribusi.lebarTanah);
+        formData.append('luasTanah', newObjekRetribusi.luasTanah);
+        formData.append('panjangBangunan', newObjekRetribusi.panjangBangunan);
+        formData.append('lebarBangunan', newObjekRetribusi.lebarBangunan);
+        formData.append('luasBangunan', newObjekRetribusi.luasBangunan);
+        formData.append('alamat', newObjekRetribusi.alamat);
+        formData.append('latitute', newObjekRetribusi.latitute);
+        formData.append('longitudee', newObjekRetribusi.longitudee);
+        formData.append('keterangan', newObjekRetribusi.keterangan);
+        if (newObjekRetribusi.gambarDenahTanah) {
+            formData.append('gambarDenahTanah', newObjekRetribusi.gambarDenahTanah);
+        }
+
         try {
-            await axios.post('http://127.0.0.1:8000/api/objek-retribusi', newObjekRetribusi);
+            await axios.post('http://127.0.0.1:8000/api/objek-retribusi', formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                },
+            });
             fetchObjekRetribusi();
             setIsAdding(false);
             setNewObjekRetribusi({
@@ -150,7 +180,7 @@ const ObjekRetribusi = () => {
 
     const handleEditClick = (item) => {
         setIsEditing(true);
-        setEditingItem({ ...item });
+        setEditingItem({ ...item, gambarDenahTanah: null }); // Reset gambar saat edit
     };
 
     const handleCancelEdit = () => {
@@ -162,10 +192,39 @@ const ObjekRetribusi = () => {
         setEditingItem(prevState => ({ ...prevState, [name]: value }));
     };
 
+    const handleEditFileChange = (e) => {
+        setEditingItem(prevState => ({ ...prevState, gambarDenahTanah: e.target.files[0] }));
+    };
+
     const handleEditSubmit = async (e) => {
         e.preventDefault();
+        const formData = new FormData();
+        formData.append('idJenisLokasiObjekRetribusi', editingItem.idJenisLokasiObjekRetribusi);
+        formData.append('idJenisObjekRetribusi', editingItem.idJenisObjekRetribusi);
+        formData.append('kodeObjekRetribusi', editingItem.kodeObjekRetribusi);
+        formData.append('noBangunan', editingItem.noBangunan);
+        formData.append('jumlahLantai', editingItem.jumlahLantai);
+        formData.append('objekRetribusi', editingItem.objekRetribusi);
+        formData.append('panjangTanah', editingItem.panjangTanah);
+        formData.append('lebarTanah', editingItem.lebarTanah);
+        formData.append('luasTanah', editingItem.luasTanah);
+        formData.append('panjangBangunan', editingItem.panjangBangunan);
+        formData.append('lebarBangunan', editingItem.lebarBangunan);
+        formData.append('luasBangunan', editingItem.luasBangunan);
+        formData.append('alamat', editingItem.alamat);
+        formData.append('latitute', editingItem.latitute);
+        formData.append('longitudee', editingItem.longitudee);
+        formData.append('keterangan', editingItem.keterangan);
+        if (editingItem.gambarDenahTanah) {
+            formData.append('gambarDenahTanah', editingItem.gambarDenahTanah);
+        }
+
         try {
-            await axios.put(`http://127.0.0.1:8000/api/objek-retribusi/${editingItem.idObjekRetribusi}`, editingItem);
+            await axios.put(`http://127.0.0.1:8000/api/objek-retribusi/${editingItem.idObjekRetribusi}`, formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                },
+            });
             fetchObjekRetribusi();
             setIsEditing(false);
             setEditingItem({
@@ -313,7 +372,7 @@ const ObjekRetribusi = () => {
                         </div>
                         <div className="form-group">
                             <label htmlFor="gambarDenahTanah">Gambar Denah Tanah</label>
-                            <input type="text" id="gambarDenahTanah" name="gambarDenahTanah" value={newObjekRetribusi.gambarDenahTanah} onChange={handleAddInputChange} />
+                            <input type="file" id="gambarDenahTanah" name="gambarDenahTanah" onChange={handleAddFileChange} />
                         </div>
                         <button type="submit" className="save-button">Simpan</button>
                         <button type="button" className="cancel-button" onClick={handleCancelAdd}>Batal</button>
@@ -417,7 +476,7 @@ const ObjekRetribusi = () => {
                         </div>
                         <div className="form-group">
                             <label htmlFor="gambarDenahTanah">Gambar Denah Tanah</label>
-                            <input type="text" id="gambarDenahTanah" name="gambarDenahTanah" value={editingItem.gambarDenahTanah} onChange={handleEditInputChange} />
+                            <input type="file" id="gambarDenahTanah" name="gambarDenahTanah" onChange={handleEditFileChange} />
                         </div>
                         <button type="submit" className="save-button">Simpan Perubahan</button>
                         <button type="button" className="cancel-button" onClick={handleCancelEdit}>Batal</button>
@@ -439,6 +498,7 @@ const ObjekRetribusi = () => {
                         <th>Luas Bangunan</th>
                         <th>Alamat</th>
                         <th>Keterangan</th>
+                        <th>Gambar</th>
                         <th>Aksi</th>
                     </tr>
                 </thead>
@@ -446,8 +506,8 @@ const ObjekRetribusi = () => {
                     {objekList.map(objek => (
                         <tr key={objek.idObjekRetribusi}>
                             <td>{objek.idObjekRetribusi}</td>
-                            <td>{objek.lokasiObjekRetribusi?.lokasiObjekRetribusi}</td>
-                            <td>{objek.jenisObjekRetribusi?.jenisObjekRetribusi}</td>
+                            <td>{objek.lokasi_objek_retribusi?.lokasiObjekRetribusi}</td>
+                            <td>{objek.jenis_objek_retribusi?.jenisObjekRetribusi}</td>
                             <td>{objek.kodeObjekRetribusi}</td>
                             <td>{objek.noBangunan}</td>
                             <td>{objek.jumlahLantai}</td>
@@ -457,11 +517,20 @@ const ObjekRetribusi = () => {
                             <td>{objek.alamat}</td>
                             <td>{objek.keterangan}</td>
                             <td>
+                                {objek.gambarDenahTanah && (
+                                    <img
+                                        src={`http://127.0.0.1:8000/${objek.gambarDenahTanah}`}
+                                        alt={objek.objekRetribusi}
+                                        style={{ maxWidth: '100px', maxHeight: '100px' }}
+                                    />
+                                )}
+                            </td>
+                            <td>
                                 <button className="edit-button" onClick={() => handleEditClick(objek)}>
-                                    <PencilSquare /> Edit
+                                    <PencilSquare />
                                 </button>
                                 <button className="delete-button" onClick={() => handleDeleteClick(objek.idObjekRetribusi)}>
-                                    <Trash /> Hapus
+                                    <Trash />
                                 </button>
                             </td>
                         </tr>

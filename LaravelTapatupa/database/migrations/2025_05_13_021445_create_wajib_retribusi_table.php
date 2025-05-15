@@ -9,7 +9,6 @@ class CreateWajibRetribusiTable extends Migration
     {
         Schema::create('wajib_retribusi', function (Blueprint $table) {
             $table->id('idWajibRetribusi');
-            $table->unsignedBigInteger('idJenisWajibRetribusi'); // FK belum disebutkan ke tabel mana
             $table->string('NIK')->unique();
             $table->string('email')->unique();
             $table->string('nomorWhatsapp')->nullable();
@@ -20,6 +19,7 @@ class CreateWajibRetribusiTable extends Migration
             $table->string('pekerjaan')->nullable();
             $table->boolean('isDeleted')->default(false);
             $table->timestamps();
+            $table->softDeletes();
 
         });
     }

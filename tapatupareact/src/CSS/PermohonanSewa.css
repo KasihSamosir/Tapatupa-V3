@@ -1,0 +1,152 @@
+/* PermohonanSewa.css */
+
+/* Gaya Container Utama */
+.permohonan-sewa-container {
+    font-family: 'Arial', sans-serif;
+    margin: 20px;
+    padding: 20px;
+    background-color: #f9f9f9; /* Latar belakang lebih lembut */
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Efek bayangan lebih halus */
+}
+
+/* Gaya Judul H2 */
+.permohonan-sewa-container h2 {
+    color: #333;
+    margin-bottom: 20px;
+    border-bottom: 3px solid #007bff; /* Garis bawah lebih tebal dan berwarna */
+    padding-bottom: 10px;
+    text-align: center; /* Judul rata tengah */
+}
+
+/* Gaya Tombol Tambah */
+.tambah-button {
+    background-color: #007bff;
+    color: white;
+    padding: 12px 20px; /* Padding lebih besar */
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-bottom: 20px;
+    transition: background-color 0.3s ease;
+}
+
+.tambah-button:hover {
+    background-color: #0056b3;
+}
+
+/* Gaya Form */
+.form {
+    background-color: white;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    margin-bottom: 20px;
+    border: 1px solid #ddd;
+}
+
+.form div {
+    margin-bottom: 15px;
+}
+
+.form label {
+    display: block;
+    margin-bottom: 5px;
+    color: #555;
+    font-weight: bold;
+}
+
+.form input[type="text"],
+.form input[type="date"],
+.form input[type="number"],
+.form select {
+    width: calc(100% - 16px); /* Lebar input fields */
+    padding: 10px; /* Padding lebih besar */
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+.form select {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-image: url('data:image/svg+xml;utf8,<svg fill="currentColor" viewBox="0 0 24 24"><path d="M7 10l5 5 5-5z"/></svg>');
+    background-repeat: no-repeat;
+    background-position-x: 98%;
+    background-position-y: 50%;
+    background-size: 12px;
+    padding-right: 25px;
+}
+
+/* Gaya Pesan Error */
+.error {
+    color: red;
+    font-size: 14px;
+    margin-top: 5px;
+}
+
+/* Gaya Tabel */
+.permohonan-sewa-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    background-color: white;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.permohonan-sewa-table thead th {
+    background-color: #007bff;
+    color: white;
+    padding: 12px;
+    text-align: left;
+    font-weight: bold;
+    border-bottom: 2px solid #0056b3;
+}
+
+.permohonan-sewa-table tbody td {
+    padding: 10px;
+    border-bottom: 1px solid #eee;
+}
+
+.permohonan-sewa-table tbody tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.permohonan-sewa-table tbody tr:hover {
+    background-color: #e9ecef;
+}
+
+.permohonan-sewa-table tbody td:last-child {
+    text-align: center;
+}
+
+/* Gaya Tombol Edit dan Hapus */
+.edit-button, .delete-button {
+    padding: 8px 12px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    color: white;
+    font-size: 14px;
+    margin-right: 5px;
+}
+
+.edit-button {
+    background-color: #28a745;
+}
+
+.edit-button:hover {
+    background-color: #1e7e34;
+}
+
+.delete-button {
+    background-color: #dc3545;
+}
+
+.delete-button:hover {
+    background-color: #c82333;
+}
