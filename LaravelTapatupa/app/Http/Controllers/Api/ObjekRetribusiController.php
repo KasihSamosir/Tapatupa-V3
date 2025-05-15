@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\ObjekRetribusi;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Facades\Log; // Pindahkan baris ini ke sini
+use Illuminate\Support\Facades\Log; 
 
 class ObjekRetribusiController extends Controller
 {
@@ -19,6 +19,7 @@ class ObjekRetribusiController extends Controller
         Log::info('Data Objek Retribusi dari Database:', $objekRetribusis->toArray());
         return response()->json(['data' => $objekRetribusis]);
     }
+
     public function store(Request $request)
 {
     $validator = Validator::make($request->all(), [

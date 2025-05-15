@@ -26,4 +26,4 @@ Route::resource('/lokasi-objek-retribusi', LokasiObjekRetribusiController::class
 Route::resource('/objek-retribusi', ObjekRetribusiController::class)->except(['create', 'edit']);
 Route::apiResource('wajib-retribusi', WajibRetribusiController::class);
 Route::apiResource('permohonan-sewa', PermohonanSewaController::class);
-Route::resource('tarif-objek-retribusi', TarifObjekRetribusiController::class);
+Route::apiResource('tarif-objek-retribusi', TarifObjekRetribusiController::class);
