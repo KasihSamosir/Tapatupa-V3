@@ -1,148 +1,176 @@
-/* JenisStatus.css */
-
-.jenis-status-container {
-    font-family: Arial, sans-serif;
-    padding: 20px;
+/* Container utama */
+.container {
+  max-width: 900px;
+  margin: 2rem auto;
+  padding: 0 1rem;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
+/* Judul */
 h2 {
-    color: #333;
-    margin-bottom: 20px;
+  margin-bottom: 1rem;
+  font-weight: 600;
+  color: #222;
 }
 
+/* Tombol Tambah */
 .add-button {
-    background-color: #6c757d; /* Grey */
-    color: white;
-    border: none;
-    padding: 10px 15px;
-    border-radius: 5px;
-    cursor: pointer;
-    margin-bottom: 20px;
-    transition: background-color 0.3s ease;
+  background-color: #28a745; /* hijau */
+  color: white;
+  padding: 0.5rem 1.2rem;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-bottom: 1rem;
 }
 
 .add-button:hover {
-    background-color: #545b62;
+  background-color: #218838;
 }
 
+/* Tabel */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  box-shadow: 0 2px 8px rgb(0 0 0 / 0.1);
+}
+
+thead {
+  background-color: #f8f9fa;
+}
+
+th, td {
+  padding: 12px 15px;
+  text-align: left;
+  border-bottom: 1px solid #dee2e6;
+  font-size: 0.95rem;
+  color: #333;
+}
+
+/* Baris ganjil diberi warna background berbeda */
+tbody tr:nth-child(odd) {
+  background-color: #fafafa;
+}
+
+/* Hover efek baris */
+tbody tr:hover {
+  background-color: #f1f1f1;
+}
+
+/* Aksi tombol */
+button.edit-button, button.delete-button {
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-size: 0.9rem;
+  padding: 4px 8px;
+  margin-right: 0.4rem;
+  border-radius: 4px;
+  transition: background-color 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+}
+
+button.edit-button {
+  color: #007bff;
+}
+
+button.edit-button:hover {
+  background-color: #e2e6ea;
+}
+
+button.delete-button {
+  color: #dc3545;
+}
+
+button.delete-button:hover {
+  background-color: #f5c6cb;
+}
+
+/* Icon di tombol */
+button svg {
+  margin-right: 4px;
+}
+
+/* Form tambah dan edit */
 .add-form, .edit-form {
-    background-color: #f8f9fa;
-    padding: 20px;
-    border-radius: 5px;
-    margin-bottom: 20px;
-    border: 1px solid #dee2e6;
-}
-
-.add-form h3, .edit-form h3 {
-    color: #333;
-    margin-top: 0;
-    margin-bottom: 15px;
+  background-color: #fff;
+  padding: 1rem 1.2rem;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 1px 4px rgb(0 0 0 / 0.1);
 }
 
 .form-group {
-    margin-bottom: 15px;
+  margin-bottom: 1rem;
 }
 
-.form-group label {
-    display: block;
-    margin-bottom: 5px;
-    color: #555;
-    font-weight: bold;
+label {
+  display: block;
+  margin-bottom: 0.3rem;
+  font-weight: 600;
+  color: #444;
 }
 
-.form-group input[type="text"],
-.form-group textarea {
-    width: 100%;
-    padding: 8px;
-    border: 1px solid #ced4da;
-    border-radius: 4px;
-    box-sizing: border-box;
+input[type="text"],
+textarea {
+  width: 100%;
+  padding: 8px 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 1rem;
+  resize: vertical;
+  transition: border-color 0.3s ease;
 }
 
-.form-group textarea {
-    resize: vertical;
+input[type="text"]:focus,
+textarea:focus {
+  border-color: #007bff;
+  outline: none;
 }
 
-.save-button, .cancel-button {
-    padding: 8px 15px;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
+/* Tombol simpan dan batal di form */
 .save-button {
-    background-color: #007bff; /* Blue */
-    color: white;
-    border: none;
-    margin-right: 10px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 0.45rem 1.1rem;
+  border-radius: 6px;
+  font-size: 1rem;
+  cursor: pointer;
+  margin-right: 0.8rem;
+  transition: background-color 0.3s ease;
 }
 
 .save-button:hover {
-    background-color: #0056b3;
+  background-color: #0056b3;
 }
 
 .cancel-button {
-    background-color: #dc3545; /* Red */
-    color: white;
-    border: none;
+  background-color: #6c757d;
+  color: white;
+  border: none;
+  padding: 0.45rem 1.1rem;
+  border-radius: 6px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
 .cancel-button:hover {
-    background-color: #c82333;
+  background-color: #5a6268;
 }
 
-.jenis-status-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
-    border: 1px solid #dee2e6;
-}
-
-.jenis-status-table th,
-.jenis-status-table td {
-    padding: 10px;
-    border: 1px solid #dee2e6;
-    text-align: left;
-}
-
-.jenis-status-table th {
-    background-color: #f2f2f2;
-    font-weight: bold;
-}
-
-.jenis-status-table tbody tr:nth-child(even) {
-    background-color: #f9f9f9;
-}
-
-.edit-button, .delete-button {
-    background-color: transparent;
-    border: none;
-    padding: 5px 10px;
-    margin-right: 5px;
-    cursor: pointer;
-    border-radius: 4px;
-    transition: background-color 0.3s ease, color 0.3s ease;
-}
-
-.edit-button {
-    color: #007bff; /* Blue */
-}
-
-.edit-button:hover {
-    background-color: #e9ecef;
-    color: #0056b3;
-}
-
-.delete-button {
-    color: #dc3545; /* Red */
-}
-
-.delete-button:hover {
-    background-color: #f8d7da;
-    color: #c82333;
-}
-
-.edit-button svg, .delete-button svg {
-    margin-right: 5px;
-    vertical-align: middle;
+/* Pesan error */
+.error-message {
+  background-color: #f8d7da;
+  color: #842029;
+  padding: 0.8rem 1rem;
+  margin-bottom: 1rem;
+  border: 1px solid #f5c2c7;
+  border-radius: 6px;
+  font-weight: 600;
 }

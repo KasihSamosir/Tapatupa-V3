@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { PencilSquare, Trash } from 'react-bootstrap-icons';
-import '../CSS/JenisStatus.css'; // Jika Anda memiliki file CSS khusus
+import '../CSS/JenisStatus.css';
 
 const JenisStatus = () => {
     const [jenisStatusList, setJenisStatusList] = useState([]);
@@ -21,21 +21,22 @@ const JenisStatus = () => {
         try {
             const response = await axios.get('http://127.0.0.1:8000/api/jenis-status');
             setJenisStatusList(response.data.data);
-            console.log('Data Jenis Status:', response.data.data);
-            setLoading(false); // Perbaikan: Set loading menjadi false setelah berhasil
+            setLoading(false);
         } catch (err) {
-            setError(err.message);
-            setLoading(false); // Pastikan loading juga di-set false jika terjadi error
+            setError({ message: err.message });
+            setLoading(false);
         }
     };
 
     const handleAddClick = () => {
         setIsAdding(true);
+        setError(null);
         setNewJenisStatus({ jenisStatus: '', keterangan: '' });
     };
 
     const handleCancelAdd = () => {
         setIsAdding(false);
+        setError(null);
     };
 
     const handleAddInputChange = (e) => {
@@ -50,18 +51,26 @@ const JenisStatus = () => {
             fetchJenisStatus();
             setIsAdding(false);
             setNewJenisStatus({ jenisStatus: '', keterangan: '' });
+            setError(null);
         } catch (err) {
-            setError(err.response?.data?.errors || { message: err.message });
+            if (err.response?.data?.errors) {
+                const messages = Object.values(err.response.data.errors).flat();
+                setError({ message: messages.join(', ') });
+            } else {
+                setError({ message: err.message });
+            }
         }
     };
 
     const handleEditClick = (item) => {
         setIsEditing(true);
+        setError(null);
         setEditingItem({ ...item });
     };
 
     const handleCancelEdit = () => {
         setIsEditing(false);
+        setError(null);
     };
 
     const handleEditInputChange = (e) => {
@@ -76,8 +85,14 @@ const JenisStatus = () => {
             fetchJenisStatus();
             setIsEditing(false);
             setEditingItem({ idJenisStatus: null, jenisStatus: '', keterangan: '' });
+            setError(null);
         } catch (err) {
-            setError(err.response?.data?.errors || { message: err.message });
+            if (err.response?.data?.errors) {
+                const messages = Object.values(err.response.data.errors).flat();
+                setError({ message: messages.join(', ') });
+            } else {
+                setError({ message: err.message });
+            }
         }
     };
 
@@ -86,8 +101,9 @@ const JenisStatus = () => {
             try {
                 await axios.delete(`http://127.0.0.1:8000/api/jenis-status/${id}`);
                 fetchJenisStatus();
+                setError(null);
             } catch (err) {
-                setError(err.message);
+                setError({ message: err.message });
             }
         }
     };
@@ -96,14 +112,16 @@ const JenisStatus = () => {
         return <div>Loading data jenis status...</div>;
     }
 
-    if (error) {
-        return <div>Error: {error}</div>;
-    }
-
     return (
         <div className="jenis-status-container">
             <h2>Manajemen Jenis Status</h2>
             <button className="add-button" onClick={handleAddClick}>Tambah Jenis Status</button>
+
+            {error && (
+                <div className="error-message" style={{ color: 'red', marginTop: '1rem' }}>
+                    Error: {error.message}
+                </div>
+            )}
 
             {isAdding && (
                 <div className="add-form">

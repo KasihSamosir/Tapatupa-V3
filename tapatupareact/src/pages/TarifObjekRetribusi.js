@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import '../CSS/TarifObjekRetribusi.css'
 
 const API_BASE_URL = 'http://127.0.0.1:8000/api';
 
 const initialForm = {
+    idTarifObjekRetribusi: null,
     idObjekRetribusi: '',
     idJenisJangkaWaktu: '',
     tanggalDinilai: '',
@@ -19,9 +21,10 @@ function TarifObjectRetribusi() {
     const [form, setForm] = useState(initialForm);
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
-    const [showForm, setShowForm] = useState(false); // State untuk mengontrol tampilan form atau tabel
+    const [showForm, setShowForm] = useState(false);
     const [objekRetribusiList, setObjekRetribusiList] = useState([]);
     const [jenisJangkaWaktuList, setJenisJangkaWaktuList] = useState([]);
+    const [editingTarifId, setEditingTarifId] = useState(null);
 
     useEffect(() => {
         fetchTarifs();
@@ -33,7 +36,6 @@ function TarifObjectRetribusi() {
         setLoading(true);
         try {
             const res = await axios.get(`${API_BASE_URL}/tarif-objek-retribusi`);
-            console.log('Response Data Tarif:', res.data);
             setTarifs(res.data);
             setError('');
         } catch (error) {
@@ -46,8 +48,8 @@ function TarifObjectRetribusi() {
 
     const fetchDropdownData = async (endpoint, setState) => {
         try {
-            const response = await axios.get(`${API_BASE_URL}/${endpoint}`);
-            setState(response.data.data);
+            const res = await axios.get(`${API_BASE_URL}/${endpoint}`);
+            setState(res.data.data);
             setError('');
         } catch (error) {
             console.error(`Error fetching ${endpoint}:`, error);
@@ -72,42 +74,94 @@ function TarifObjectRetribusi() {
                 formData.append(key, value);
             }
         });
-        formData.set('isDefault', form.isDefault ? '1' : '0'); // Pastikan format isDefault benar
+        formData.set('isDefault', form.isDefault ? '1' : '0');
+
+        const url = editingTarifId
+            ? `${API_BASE_URL}/tarif-objek-retribusi/${editingTarifId}`
+            : `${API_BASE_URL}/tarif-objek-retribusi`;
+        const method = editingTarifId ? 'POST' : 'POST';
 
         try {
-            const response = await axios.post(`${API_BASE_URL}/tarif-objek-retribusi`, formData, {
-                headers: {
-                    'Content-Type': 'multipart/form-data',
-                },
+            if (editingTarifId) {
+                formData.append('_method', 'PUT');
+            }
+
+            await axios({
+                method: method,
+                url: url,
+                data: formData,
+                headers: { 'Content-Type': 'multipart/form-data' },
             });
-            console.log('Response Tambah Tarif:', response.data);
+
             fetchTarifs();
             setForm(initialForm);
+            setShowForm(false);
+            setEditingTarifId(null);
             setError('');
-            alert('Tarif berhasil ditambahkan!');
-            setShowForm(false); // Sembunyikan form setelah berhasil
+            alert(`Tarif berhasil ${editingTarifId ? 'diperbarui' : 'ditambahkan'}!`);
         } catch (error) {
-            console.error("Error adding tarif:", error);
+            console.error("Error submitting form:", error);
             if (error.response && error.response.data) {
-                console.log("Response error data:", error.response.data);
                 if (error.response.data.errors) {
-                    setError(Object.values(error.response.data.errors).flat().join("\n"));
+                    setError(Object.values(error.response.data.errors).flat().join('\n'));
                 } else if (error.response.data.message) {
                     setError(error.response.data.message);
                 } else {
-                    setError('Gagal menambahkan tarif.');
+                    setError('Terjadi kesalahan saat menyimpan tarif.');
                 }
             } else {
-                setError('Gagal menambahkan tarif.');
+                setError('Terjadi kesalahan saat menyimpan tarif.');
             }
         } finally {
             setLoading(false);
         }
     };
 
-    const handleTambahTarif = () => {
+    const handleEdit = (tarif) => {
+        setForm({
+            idTarifObjekRetribusi: tarif.idTarifObjekRetribusi,
+            idObjekRetribusi: tarif.idObjekRetribusi,
+            idJenisJangkaWaktu: tarif.idJenisJangkaWaktu,
+            tanggalDinilai: tarif.tanggalDinilai,
+            namaPenilai: tarif.namaPenilai,
+            nominalTarif: tarif.nominalTarif,
+            keterangan: tarif.keterangan,
+            isDefault: tarif.isDefault,
+            fileHasilPenilaian: null,
+        });
+        setEditingTarifId(tarif.idTarifObjekRetribusi);
         setShowForm(true);
-        setForm(initialForm); // Reset form saat tombol tambah diklik
+    };
+
+    const handleDelete = async (id) => {
+        if (!window.confirm('Apakah Anda yakin ingin menghapus tarif ini?')) return;
+
+        setLoading(true);
+        try {
+            await axios.delete(`${API_BASE_URL}/tarif-objek-retribusi/${id}`);
+            fetchTarifs();
+            setError('');
+            alert('Tarif berhasil dihapus!');
+        } catch (error) {
+            console.error("Error deleting tarif:", error);
+            setError('Gagal menghapus tarif.');
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const formatRupiah = (angka) => {
+        return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(angka);
+    };
+
+    const formatTanggal = (tanggal) => {
+        return new Date(tanggal).toLocaleDateString('id-ID');
+    };
+
+    const handleTambahTarif = () => {
+        setForm(initialForm);
+        setShowForm(true);
+        setEditingTarifId(null);
     };
 
     return (
@@ -117,10 +171,10 @@ function TarifObjectRetribusi() {
             {loading && <div>Loading...</div>}
 
             {!showForm ? (
-                <div>
+                <>
                     <button onClick={handleTambahTarif}>Tambah Tarif</button>
                     <h2>Daftar Tarif</h2>
-                    <table>
+                    <table border="1" cellPadding="8">
                         <thead>
                             <tr>
                                 <th>Kode Objek</th>
@@ -130,31 +184,35 @@ function TarifObjectRetribusi() {
                                 <th>Tarif</th>
                                 <th>Keterangan</th>
                                 <th>File Penilaian</th>
+                                <th>Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
-                            {Array.isArray(tarifs) && tarifs.map((tarif) => (
+                            {tarifs.map((tarif) => (
                                 <tr key={tarif.idTarifObjekRetribusi}>
-                                <td>{tarif.objek_retribusi?.kodeObjekRetribusi}</td> {/* Perhatikan: objek_retribusi */}
-                                <td>{tarif.jenis_jangka_waktu?.jenisJangkaWaktu}</td> {/* Perhatikan: jenis_jangka_waktu */}
-                                <td>{tarif.tanggalDinilai}</td>
-                                <td>{tarif.namaPenilai}</td>
-                                <td>{tarif.nominalTarif}</td>
-                                <td>{tarif.keterangan}</td>
-                                <td>{tarif.fileHasilPenilaian?.split('/').pop()}</td> {/* Ambil hanya nama file */}
+                                    <td>{tarif.objek_retribusi?.kodeObjekRetribusi}</td>
+                                    <td>{tarif.jenis_jangka_waktu?.jenisJangkaWaktu}</td>
+                                    <td>{formatTanggal(tarif.tanggalDinilai)}</td>
+                                    <td>{tarif.namaPenilai}</td>
+                                    <td>{formatRupiah(tarif.nominalTarif)}</td>
+                                    <td>{tarif.keterangan}</td>
+                                    <td>{tarif.fileHasilPenilaian?.split('/').pop()}</td>
+                                    <td>
+                                        <button onClick={() => handleEdit(tarif)}>Edit</button>
+                                        <button onClick={() => handleDelete(tarif.idTarifObjekRetribusi)}>Hapus</button>
+                                    </td>
                                 </tr>
-                                ))}
-                            </tbody>
+                            ))}
+                        </tbody>
                     </table>
-                </div>
+                </>
             ) : (
                 <form onSubmit={handleSubmit}>
-                    {/* Form elements seperti sebelumnya */}
                     <div>
                         <label htmlFor="idObjekRetribusi">Objek Retribusi:</label>
                         <select name="idObjekRetribusi" id="idObjekRetribusi" value={form.idObjekRetribusi} onChange={handleChange} required>
                             <option value="">Pilih Objek Retribusi</option>
-                            {Array.isArray(objekRetribusiList) && objekRetribusiList.map(objek => (
+                            {objekRetribusiList.map(objek => (
                                 <option key={objek.idObjekRetribusi} value={objek.idObjekRetribusi}>
                                     {objek.kodeObjekRetribusi} - {objek.namaObjekRetribusi}
                                 </option>
@@ -165,7 +223,7 @@ function TarifObjectRetribusi() {
                         <label htmlFor="idJenisJangkaWaktu">Jenis Jangka Waktu:</label>
                         <select name="idJenisJangkaWaktu" id="idJenisJangkaWaktu" value={form.idJenisJangkaWaktu} onChange={handleChange} required>
                             <option value="">Pilih Jenis Jangka Waktu</option>
-                            {Array.isArray(jenisJangkaWaktuList) && jenisJangkaWaktuList.map(jenis => (
+                            {jenisJangkaWaktuList.map(jenis => (
                                 <option key={jenis.idJenisJangkaWaktu} value={jenis.idJenisJangkaWaktu}>
                                     {jenis.jenisJangkaWaktu}
                                 </option>
@@ -197,7 +255,7 @@ function TarifObjectRetribusi() {
                         <input type="file" name="fileHasilPenilaian" id="fileHasilPenilaian" onChange={handleChange} />
                     </div>
                     <button type="submit" disabled={loading}>Simpan</button>
-                    <button type="button" onClick={() => setShowForm(false)}>Batal</button> {/* Tombol batal untuk kembali ke tabel */}
+                    <button type="button" onClick={() => setShowForm(false)}>Batal</button>
                 </form>
             )}
         </div>

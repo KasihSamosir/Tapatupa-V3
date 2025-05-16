@@ -33,6 +33,7 @@ class WajibRetribusiController extends Controller
             'alamat' => 'nullable|string',
             'fileFoto' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'pekerjaan' => 'nullable|string|max:255',
+            'idJenisWajibRetribusi' => 'required|exists:jenis_wajib_retribusi,id',
         ]);
 
         if ($validator->fails()) {
