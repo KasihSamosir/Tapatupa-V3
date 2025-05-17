@@ -1,6 +1,6 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Layout from './components/Layout'; 
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import Layout from './components/Layout';
 import JenisPermohonan from './pages/Jenispermohonan';
 import PermohonanSewa from './pages/PermohonanSewa';
 import WajibRetribusi from './pages/WajibRetribusi';
@@ -14,13 +14,13 @@ import PeruntukanSewa from './pages/PeruntukanSewa';
 import JenisStatus from './pages/JenisStatus';
 import StatusPermohonan from './pages/StatusPermohonan';
 import AdminLogin from './components/AdminLogin';
-import './App.css'; 
-
+import './App.css';
 
 function App() {
   return (
     <Router>
       <Routes>
+        <Route path="/" element={<Navigate to="/Jenis-permohonan" replace />} /> {/* Redirect ke /Jenis-permohonan */}
         <Route path="/Jenis-permohonan" element={<Layout><JenisPermohonan /></Layout>} />
         <Route path="/permohonan-sewa" element={<Layout><PermohonanSewa /></Layout>} />
         <Route path="/wajib-retribusi" element={<Layout><WajibRetribusi /></Layout>} />
