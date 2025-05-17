@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import '../CSS/TarifObjekRetribusi.css'
+// import '../CSS/TarifObjekRetribusi.css' // gak perlu kalau sudah Bootstrap
 
 const API_BASE_URL = 'http://127.0.0.1:8000/api';
 
@@ -165,17 +165,20 @@ function TarifObjectRetribusi() {
     };
 
     return (
-        <div>
-            <h1>Tarif Objek Retribusi</h1>
-            {error && <div style={{ color: 'red' }}>{error}</div>}
-            {loading && <div>Loading...</div>}
+        <div className="container my-4">
+            <h1 className="mb-4">Tarif Objek Retribusi</h1>
+
+            {error && <div className="alert alert-danger">{error}</div>}
+            {loading && <div className="mb-3"><em>Loading...</em></div>}
 
             {!showForm ? (
                 <>
-                    <button onClick={handleTambahTarif}>Tambah Tarif</button>
+                    <button className="btn btn-primary mb-3" onClick={handleTambahTarif}>
+                        Tambah Tarif
+                    </button>
                     <h2>Daftar Tarif</h2>
-                    <table border="1" cellPadding="8">
-                        <thead>
+                    <table className="table table-striped table-hover shadow-sm">
+                        <thead className="table-light">
                             <tr>
                                 <th>Kode Objek</th>
                                 <th>Jangka Waktu</th>
@@ -196,10 +199,20 @@ function TarifObjectRetribusi() {
                                     <td>{tarif.namaPenilai}</td>
                                     <td>{formatRupiah(tarif.nominalTarif)}</td>
                                     <td>{tarif.keterangan}</td>
-                                    <td>{tarif.fileHasilPenilaian?.split('/').pop()}</td>
+                                    <td>{tarif.fileHasilPenilaian ? tarif.fileHasilPenilaian.split('/').pop() : '-'}</td>
                                     <td>
-                                        <button onClick={() => handleEdit(tarif)}>Edit</button>
-                                        <button onClick={() => handleDelete(tarif.idTarifObjekRetribusi)}>Hapus</button>
+                                        <button
+                                            className="btn btn-sm btn-outline-primary me-2"
+                                            onClick={() => handleEdit(tarif)}
+                                        >
+                                            Edit
+                                        </button>
+                                        <button
+                                            className="btn btn-sm btn-outline-danger"
+                                            onClick={() => handleDelete(tarif.idTarifObjekRetribusi)}
+                                        >
+                                            Hapus
+                                        </button>
                                     </td>
                                 </tr>
                             ))}
@@ -207,10 +220,17 @@ function TarifObjectRetribusi() {
                     </table>
                 </>
             ) : (
-                <form onSubmit={handleSubmit}>
-                    <div>
-                        <label htmlFor="idObjekRetribusi">Objek Retribusi:</label>
-                        <select name="idObjekRetribusi" id="idObjekRetribusi" value={form.idObjekRetribusi} onChange={handleChange} required>
+                <form onSubmit={handleSubmit} className="border p-4 rounded shadow-sm bg-white" style={{ maxWidth: 700 }}>
+                    <div className="mb-3">
+                        <label htmlFor="idObjekRetribusi" className="form-label">Objek Retribusi:</label>
+                        <select
+                            name="idObjekRetribusi"
+                            id="idObjekRetribusi"
+                            className="form-select"
+                            value={form.idObjekRetribusi}
+                            onChange={handleChange}
+                            required
+                        >
                             <option value="">Pilih Objek Retribusi</option>
                             {objekRetribusiList.map(objek => (
                                 <option key={objek.idObjekRetribusi} value={objek.idObjekRetribusi}>
@@ -219,47 +239,62 @@ function TarifObjectRetribusi() {
                             ))}
                         </select>
                     </div>
-                    <div>
-                        <label htmlFor="idJenisJangkaWaktu">Jenis Jangka Waktu:</label>
-                        <select name="idJenisJangkaWaktu" id="idJenisJangkaWaktu" value={form.idJenisJangkaWaktu} onChange={handleChange} required>
-                            <option value="">Pilih Jenis Jangka Waktu</option>
-                            {jenisJangkaWaktuList.map(jenis => (
-                                <option key={jenis.idJenisJangkaWaktu} value={jenis.idJenisJangkaWaktu}>
-                                    {jenis.jenisJangkaWaktu}
-                                </option>
-                            ))}
-                        </select>
-                    </div>
-                    <div>
-                        <label htmlFor="tanggalDinilai">Tanggal Dinilai:</label>
-                        <input type="date" name="tanggalDinilai" id="tanggalDinilai" value={form.tanggalDinilai} onChange={handleChange} required />
-                    </div>
-                    <div>
-                        <label htmlFor="namaPenilai">Nama Penilai:</label>
-                        <input type="text" name="namaPenilai" id="namaPenilai" value={form.namaPenilai} onChange={handleChange} required />
-                    </div>
-                    <div>
-                        <label htmlFor="nominalTarif">Nominal Tarif:</label>
-                        <input type="number" name="nominalTarif" id="nominalTarif" value={form.nominalTarif} onChange={handleChange} required />
-                    </div>
-                    <div>
-                        <label htmlFor="keterangan">Keterangan:</label>
-                        <textarea name="keterangan" id="keterangan" value={form.keterangan} onChange={handleChange} />
-                    </div>
-                    <div>
-                        <label htmlFor="isDefault">Default:</label>
-                        <input type="checkbox" name="isDefault" id="isDefault" checked={form.isDefault} onChange={handleChange} />
-                    </div>
-                    <div>
-                        <label htmlFor="fileHasilPenilaian">File Hasil Penilaian:</label>
-                        <input type="file" name="fileHasilPenilaian" id="fileHasilPenilaian" onChange={handleChange} />
-                    </div>
-                    <button type="submit" disabled={loading}>Simpan</button>
-                    <button type="button" onClick={() => setShowForm(false)}>Batal</button>
-                </form>
-            )}
-        </div>
-    );
+                    <div className
+                    ="mb-3">
+<label htmlFor="idJenisJangkaWaktu" className="form-label">Jenis Jangka Waktu:</label>
+<select name="idJenisJangkaWaktu" id="idJenisJangkaWaktu" className="form-select" value={form.idJenisJangkaWaktu} onChange={handleChange} required >
+<option value="">Pilih Jangka Waktu</option>
+{jenisJangkaWaktuList.map(jangka => (
+<option key={jangka.idJenisJangkaWaktu} value={jangka.idJenisJangkaWaktu}>
+{jangka.jenisJangkaWaktu}
+</option>
+))}
+</select>
+</div>
+<div className="mb-3">
+<label htmlFor="tanggalDinilai" className="form-label">Tanggal Dinilai:</label>
+<input type="date" id="tanggalDinilai" name="tanggalDinilai" className="form-control" value={form.tanggalDinilai} onChange={handleChange} required />
+</div>
+<div className="mb-3">
+<label htmlFor="namaPenilai" className="form-label">Nama Penilai:</label>
+<input type="text" id="namaPenilai" name="namaPenilai" className="form-control" value={form.namaPenilai} onChange={handleChange} required />
+</div>
+<div className="mb-3">
+<label htmlFor="nominalTarif" className="form-label">Nominal Tarif:</label>
+<input type="number" id="nominalTarif" name="nominalTarif" className="form-control" value={form.nominalTarif} onChange={handleChange} required min="0" />
+</div>
+<div className="mb-3">
+<label htmlFor="keterangan" className="form-label">Keterangan:</label>
+<textarea id="keterangan" name="keterangan" className="form-control" value={form.keterangan} onChange={handleChange} rows="3" />
+</div>
+<div className="form-check mb-3">
+<input type="checkbox" id="isDefault" name="isDefault" className="form-check-input" checked={form.isDefault} onChange={handleChange} />
+<label htmlFor="isDefault" className="form-check-label">Default</label>
+</div>
+<div className="mb-3">
+<label htmlFor="fileHasilPenilaian" className="form-label">File Hasil Penilaian:</label>
+<input type="file" id="fileHasilPenilaian" name="fileHasilPenilaian" className="form-control" onChange={handleChange} accept=".pdf,.doc,.docx,.jpg,.jpeg,.png" />
+</div>
+<button type="submit" className="btn btn-success me-2" disabled={loading}>
+{loading ? 'Menyimpan...' : 'Simpan'}
+</button>
+<button
+type="button"
+className="btn btn-secondary"
+onClick={() => {
+setShowForm(false);
+setForm(initialForm);
+setEditingTarifId(null);
+setError('');
+}}
+disabled={loading}
+>
+Batal
+</button>
+</form>
+)}
+</div>
+);
 }
 
 export default TarifObjectRetribusi;

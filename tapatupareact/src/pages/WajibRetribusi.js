@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import '../CSS/WajibRetribusi.css';
 
 const API_BASE_URL = 'http://localhost:8000/api';
 
@@ -21,6 +20,10 @@ const WajibRetribusi = () => {
     });
     const [formErrors, setFormErrors] = useState({});
 
+    useEffect(() => {
+        fetchWajibRetribusi();
+    }, []);
+
     const fetchWajibRetribusi = async () => {
         try {
             const response = await axios.get(`${API_BASE_URL}/wajib-retribusi`);
@@ -29,10 +32,6 @@ const WajibRetribusi = () => {
             console.error('Error fetching wajib retribusi:', error);
         }
     };
-
-    useEffect(() => {
-        fetchWajibRetribusi();
-    }, []);
 
     const handleAddClick = () => {
         setIsAdding(true);
@@ -60,7 +59,7 @@ const WajibRetribusi = () => {
             nomorPonsel: wajibRetribusi.nomorPonsel || '',
             nomorWhatsapp: wajibRetribusi.nomorWhatsapp || '',
             email: wajibRetribusi.email || '',
-            // fileFoto untuk edit perlu penanganan khusus, mungkin tidak langsung diubah di form
+            fileFoto: null,
         });
         setFormErrors({});
     };
@@ -82,12 +81,9 @@ const WajibRetribusi = () => {
         }
 
         try {
-            const response = await axios.post(`${API_BASE_URL}/wajib-retribusi`, formDataToSend, {
-                headers: {
-                    'Content-Type': 'multipart/form-data',
-                },
+            await axios.post(`${API_BASE_URL}/wajib-retribusi`, formDataToSend, {
+                headers: { 'Content-Type': 'multipart/form-data' },
             });
-            console.log('Wajib retribusi added:', response.data);
             fetchWajibRetribusi();
             setIsAdding(false);
             setFormData({
@@ -101,7 +97,6 @@ const WajibRetribusi = () => {
                 fileFoto: null,
             });
         } catch (error) {
-            console.error('Error adding wajib retribusi:', error.response?.data?.errors || error);
             setFormErrors(error.response?.data?.errors || {});
         }
     };
@@ -112,15 +107,12 @@ const WajibRetribusi = () => {
         for (const key in formData) {
             formDataToSend.append(key, formData[key]);
         }
-        formDataToSend.append('_method', 'PUT'); // Untuk mengirim sebagai PUT request
+        formDataToSend.append('_method', 'PUT');
 
         try {
-            const response = await axios.post(`${API_BASE_URL}/wajib-retribusi/${selectedWajibRetribusi.idWajibRetribusi}`, formDataToSend, {
-                headers: {
-                    'Content-Type': 'multipart/form-data',
-                },
+            await axios.post(`${API_BASE_URL}/wajib-retribusi/${selectedWajibRetribusi.idWajibRetribusi}`, formDataToSend, {
+                headers: { 'Content-Type': 'multipart/form-data' },
             });
-            console.log('Wajib retribusi updated:', response.data);
             fetchWajibRetribusi();
             setIsEditing(false);
             setSelectedWajibRetribusi(null);
@@ -135,7 +127,6 @@ const WajibRetribusi = () => {
                 fileFoto: null,
             });
         } catch (error) {
-            console.error('Error updating wajib retribusi:', error.response?.data?.errors || error);
             setFormErrors(error.response?.data?.errors || {});
         }
     };
@@ -144,7 +135,6 @@ const WajibRetribusi = () => {
         if (window.confirm('Apakah Anda yakin ingin menghapus data ini?')) {
             try {
                 await axios.delete(`${API_BASE_URL}/wajib-retribusi/${id}`);
-                console.log('Wajib retribusi deleted:', id);
                 fetchWajibRetribusi();
             } catch (error) {
                 console.error('Error deleting wajib retribusi:', error);
@@ -152,159 +142,184 @@ const WajibRetribusi = () => {
         }
     };
 
+    const renderError = (field) => {
+        if (formErrors[field]) {
+            return <div className="text-danger small mt-1">{formErrors[field][0]}</div>;
+        }
+        return null;
+    };
+
     return (
-        <div>
-            <h2>Manajemen Wajib Retribusi</h2>
+        <div className="container my-4">
+            <h2 className="mb-4">Manajemen Wajib Retribusi</h2>
 
-            <button onClick={handleAddClick}>Tambah Wajib Retribusi</button>
+            <button className="btn btn-primary mb-3" onClick={handleAddClick}>Tambah Wajib Retribusi</button>
 
-            {isAdding && (
-                <form onSubmit={handleAddSubmit}>
-                    <div>
-                        <label>NIK:</label>
-                        <input type="text" name="NIK" value={formData.NIK} onChange={handleInputChange} />
-                        {formErrors.NIK && <p className="error">{formErrors.NIK[0]}</p>}
+            {(isAdding || isEditing) && (
+                <form onSubmit={isAdding ? handleAddSubmit : handleEditSubmit} className="border p-4 rounded bg-light mb-4">
+                    <div className="mb-3">
+                        <label htmlFor="NIK" className="form-label">NIK:</label>
+                        <input
+                            type="text"
+                            id="NIK"
+                            name="NIK"
+                            className={`form-control ${formErrors.NIK ? 'is-invalid' : ''}`}
+                            value={formData.NIK}
+                            onChange={handleInputChange}
+                        />
+                        {renderError('NIK')}
                     </div>
-                    <div>
-                        <label>Nama:</label>
-                        <input type="text" name="namaWajibRetribusi" value={formData.namaWajibRetribusi} onChange={handleInputChange} required />
-                        {formErrors.namaWajibRetribusi && <p className="error">{formErrors.namaWajibRetribusi[0]}</p>}
-                    </div>
-                    <div>
-                        <label>Pekerjaan:</label>
-                        <input type="text" name="pekerjaan" value={formData.pekerjaan} onChange={handleInputChange} />
-                        {formErrors.pekerjaan && <p className="error">{formErrors.pekerjaan[0]}</p>}
-                    </div>
-                    <div>
-                        <label>Alamat:</label>
-                        <textarea name="alamat" value={formData.alamat} onChange={handleInputChange} />
-                        {formErrors.alamat && <p className="error">{formErrors.alamat[0]}</p>}
-                    </div>
-                    <div>
-                        <label>Nomor Ponsel:</label>
-                        <input type="text" name="nomorPonsel" value={formData.nomorPonsel} onChange={handleInputChange} />
-                        {formErrors.nomorPonsel && <p className="error">{formErrors.nomorPonsel[0]}</p>}
-                    </div>
-                    <div>
-                        <label>Nomor WhatsApp:</label>
-                        <input type="text" name="nomorWhatsapp" value={formData.nomorWhatsapp} onChange={handleInputChange} />
-                        {formErrors.nomorWhatsapp && <p className="error">{formErrors.nomorWhatsapp[0]}</p>}
-                    </div>
-                    <div>
-                        <label>Email:</label>
-                        <input type="email" name="email" value={formData.email} onChange={handleInputChange} />
-                        {formErrors.email && <p className="error">{formErrors.email[0]}</p>}
-                    </div>
-                    <div>
-                        <label>File Foto:</label>
-                        <input type="file" name="fileFoto" onChange={handleFileChange} />
-                        {formErrors.fileFoto && <p className="error">{formErrors.fileFoto[0]}</p>}
-                    </div>
-                    <button type="submit">Simpan</button>
-                    <button onClick={() => setIsAdding(false)}>Batal</button>
-                </form>
-            )}
 
-            {isEditing && selectedWajibRetribusi && (
-                <form onSubmit={handleEditSubmit}>
-                    <div>
-                        <label>NIK:</label>
-                        <input type="text" name="NIK" value={formData.NIK} onChange={handleInputChange} />
-                        {formErrors.NIK && <p className="error">{formErrors.NIK[0]}</p>}
+                    <div className="mb-3">
+                        <label htmlFor="namaWajibRetribusi" className="form-label">Nama:</label>
+                        <input
+                            type="text"
+                            id="namaWajibRetribusi"
+                            name="namaWajibRetribusi"
+                            className={`form-control ${formErrors.namaWajibRetribusi ? 'is-invalid' : ''}`}
+                            value={formData.namaWajibRetribusi}
+                            onChange={handleInputChange}
+                            required
+                        />
+                        {renderError('namaWajibRetribusi')}
                     </div>
-                    <div>
-                        <label>Nama:</label>
-                        <input type="text" name="namaWajibRetribusi" value={formData.namaWajibRetribusi} onChange={handleInputChange} required />
-                        {formErrors.namaWajibRetribusi && <p className="error">{formErrors.namaWajibRetribusi[0]}</p>}
+
+                    <div className="mb-3">
+                        <label htmlFor="pekerjaan" className="form-label">Pekerjaan:</label>
+                        <input
+                            type="text"
+                            id="pekerjaan"
+                            name="pekerjaan"
+                            className={`form-control ${formErrors.pekerjaan ? 'is-invalid' : ''}`}
+                            value={formData.pekerjaan}
+                            onChange={handleInputChange}
+                        />
+                        {renderError('pekerjaan')}
                     </div>
-                    <div>
-                        <label>Pekerjaan:</label>
-                        <input type="text" name="pekerjaan" value={formData.pekerjaan} onChange={handleInputChange} />
-                        {formErrors.pekerjaan && <p className="error">{formErrors.pekerjaan[0]}</p>}
+
+                    <div className="mb-3">
+                        <label htmlFor="alamat" className="form-label">Alamat:</label>
+                        <textarea
+                            id="alamat"
+                            name="alamat"
+                            className={`form-control ${formErrors.alamat ? 'is-invalid' : ''}`}
+                            value={formData.alamat}
+                            onChange={handleInputChange}
+                            rows={3}
+                        />
+                        {renderError('alamat')}
                     </div>
-                    <div>
-                        <label>Alamat:</label>
-                        <textarea name="alamat" value={formData.alamat} onChange={handleInputChange} />
-                        {formErrors.alamat && <p className="error">{formErrors.alamat[0]}</p>}
+
+                    <div className="mb-3">
+                        <label htmlFor="nomorPonsel" className="form-label">Nomor Ponsel:</label>
+                        <input
+                            type="text"
+                            id="nomorPonsel"
+                            name="nomorPonsel"
+                            className={`form-control ${formErrors.nomorPonsel ? 'is-invalid' : ''}`}
+                            value={formData.nomorPonsel}
+                            onChange={handleInputChange}
+                        />
+                        {renderError('nomorPonsel')}
                     </div>
-                    <div>
-                        <label>Nomor Ponsel:</label>
-                        <input type="text" name="nomorPonsel" value={formData.nomorPonsel} onChange={handleInputChange} />
-                        {formErrors.nomorPonsel && <p className="error">{formErrors.nomorPonsel[0]}</p>}
+
+                    <div className="mb-3">
+                        <label htmlFor="nomorWhatsapp" className="form-label">Nomor WhatsApp:</label>
+                        <input
+                            type="text"
+                            id="nomorWhatsapp"
+                            name="nomorWhatsapp"
+                            className={`form-control ${formErrors.nomorWhatsapp ? 'is-invalid' : ''}`}
+                            value={formData.nomorWhatsapp}
+                            onChange={handleInputChange}
+                        />
+                        {renderError('nomorWhatsapp')}
                     </div>
-                    <div>
-                        <label>Nomor WhatsApp:</label>
-                        <input type="text" name="nomorWhatsapp" value={formData.nomorWhatsapp} onChange={handleInputChange} />
-                        {formErrors.nomorWhatsapp && <p className="error">{formErrors.nomorWhatsapp[0]}</p>}
+
+                    <div className="mb-3">
+                        <label htmlFor="email" className="form-label">Email:</label>
+                        <input
+                            type="email"
+                            id="email"
+                            name="email"
+                            className={`form-control ${formErrors.email ? 'is-invalid' : ''}`}
+                            value={formData.email}
+                            onChange={handleInputChange}
+                        />
+                        {renderError('email')}
                     </div>
-                    <div>
-                        <label>Email:</label>
-                        <input type="email" name="email" value={formData.email} onChange={handleInputChange} />
-                        {formErrors.email && <p className="error">{formErrors.email[0]}</p>}
-                    </div>
-                    <div>
-                        <label>File Foto:</label>
-                        <input type="file" name="fileFoto" onChange={handleFileChange} />
-                        {formErrors.fileFoto && <p className="error">{formErrors.fileFoto[0]}</p>}
-                        {selectedWajibRetribusi.fileFoto && (
+
+                    <div className="mb-3">
+                        <label htmlFor="fileFoto" className="form-label">File Foto:</label>
+                        <input
+                            type="file"
+                            id="fileFoto"
+                            name="fileFoto"
+                            className={`form-control ${formErrors.fileFoto ? 'is-invalid' : ''}`}
+                            onChange={handleFileChange}
+                        />
+                        {renderError('fileFoto')}
+                        {isEditing && selectedWajibRetribusi.fileFoto && (
                             <img
                                 src={`http://127.0.0.1:8000/${selectedWajibRetribusi.fileFoto}`}
                                 alt={selectedWajibRetribusi.namaWajibRetribusi}
-                                style={{ maxWidth: '100px', marginTop: '10px' }}
+                                className="mt-2"
+                                style={{ maxWidth: '150px' }}
                             />
                         )}
-                        <p>Biarkan kosong jika tidak ingin mengubah foto.</p>
+                        {isEditing && <small className="form-text text-muted">Biarkan kosong jika tidak ingin mengubah foto.</small>}
                     </div>
-                    <button type="submit">Simpan Perubahan</button>
-                    <button onClick={() => setIsEditing(false)}>Batal</button>
+
+                    <button type="submit" className="btn btn-success me-2">{isAdding ? 'Simpan' : 'Simpan Perubahan'}</button>
+                    <button type="button" className="btn btn-secondary" onClick={() => { isAdding ? setIsAdding(false) : setIsEditing(false); }}>
+                        Batal
+                    </button>
                 </form>
             )}
 
-            <table>
-                <thead>
+            <table className="table table-striped table-bordered">
+                <thead className="table-light">
                     <tr>
                         <th>ID</th>
                         <th>NIK</th>
                         <th>Nama</th>
                         <th>Pekerjaan</th>
                         <th>Alamat</th>
-                        <th>Nomor Ponsel</th>
+                        <th>Nomor</th>
                         <th>Nomor WhatsApp</th>
                         <th>Email</th>
                         <th>Foto</th>
                         <th>Aksi</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {wajibRetribusiList.map((wajibRetribusi) => (
-                        <tr key={wajibRetribusi.idWajibRetribusi}>
-                            <td>{wajibRetribusi.idWajibRetribusi}</td>
-                            <td>{wajibRetribusi.NIK}</td>
-                            <td>{wajibRetribusi.namaWajibRetribusi}</td>
-                            <td>{wajibRetribusi.pekerjaan}</td>
-                            <td>{wajibRetribusi.alamat}</td>
-                            <td>{wajibRetribusi.nomorPonsel}</td>
-                            <td>{wajibRetribusi.nomorWhatsapp}</td>
-                            <td>{wajibRetribusi.email}</td>
-                            <td>
-                                {wajibRetribusi.fileFoto && (
-                                    <img
-                                        src={`http://127.0.0.1:8000/${wajibRetribusi.fileFoto}`}
-                                        alt={wajibRetribusi.namaWajibRetribusi}
-                                        style={{ maxWidth: '50px' }}
-                                    />
-                                )}
-                            </td>
-                            <td>
-                                <button onClick={() => handleEditClick(wajibRetribusi)}>Edit</button>
-                                <button onClick={() => handleDeleteClick(wajibRetribusi.idWajibRetribusi)}>Hapus</button>
-                            </td>
                         </tr>
-                    ))}
-                </tbody>
-            </table>
-        </div>
-    );
+                        </thead>
+                        <tbody>
+                            {wajibRetribusiList.map((wajibRetribusi) => (
+<tr key={wajibRetribusi.idWajibRetribusi}>
+<td>{wajibRetribusi.idWajibRetribusi}</td>
+<td>{wajibRetribusi.NIK}</td>
+<td>{wajibRetribusi.namaWajibRetribusi}</td>
+<td>{wajibRetribusi.pekerjaan}</td>
+<td>{wajibRetribusi.alamat}</td>
+<td>{wajibRetribusi.nomorPonsel}</td>
+<td>{wajibRetribusi.nomorWhatsapp}</td>
+<td>{wajibRetribusi.email}</td>
+<td>
+{wajibRetribusi.fileFoto && (
+<img src={`http://127.0.0.1:8000/${wajibRetribusi.fileFoto}`} 
+alt={wajibRetribusi.namaWajibRetribusi}
+style={{ maxWidth: '80px' }} />
+)}
+</td>
+<td>
+<button className="btn btn-warning btn-sm me-2" onClick={() => handleEditClick(wajibRetribusi)}> Edit</button>
+<button className="btn btn-danger btn-sm" onClick={() => handleDeleteClick(wajibRetribusi.idWajibRetribusi)}> Hapus </button>
+</td>
+</tr>
+))} 
+                        </tbody>
+                        </table>
+</div>
+);
 };
 
 export default WajibRetribusi;
