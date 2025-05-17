@@ -27,12 +27,4 @@ class WajibRetribusi extends Model
     protected $casts = [
         'isDeleted' => 'boolean',
     ];
-
-    // Jika di kemudian hari ada relasi dengan Jenis Retribusi,
-    // Anda bisa menambahkan fungsi relasi di sini.
-    // Contoh (jika ada kolom idJenisRetribusi):
-    // public function jenisRetribusi()
-    // {
-    //     return $this->belongsTo(JenisRetribusi::class, 'idJenisRetribusi', 'idJenisRetribusi');
-    // }
 }

@@ -25,7 +25,7 @@ class WajibRetribusiController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'NIK' => 'nullable|string|max:255|unique:wajib_retribusi,NIK',
+            'NIK' => 'required|unique:wajib_retribusi,NIK',
             'email' => 'nullable|string|email|max:255|unique:wajib_retribusi,email',
             'nomorWhatsapp' => 'nullable|string|max:20',
             'nomorPonsel' => 'nullable|string|max:20',
@@ -33,7 +33,6 @@ class WajibRetribusiController extends Controller
             'alamat' => 'nullable|string',
             'fileFoto' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'pekerjaan' => 'nullable|string|max:255',
-            'idJenisWajibRetribusi' => 'required|exists:jenis_wajib_retribusi,id',
         ]);
 
         if ($validator->fails()) {
@@ -45,7 +44,7 @@ class WajibRetribusiController extends Controller
         if ($request->hasFile('fileFoto')) {
             $foto = $request->file('fileFoto');
             $namaFoto = time() . '_' . $foto->getClientOriginalName();
-            $pathFoto = $foto->storeAs('public/foto_wajib_retribusi', $namaFoto);
+            $foto->storeAs('public/foto_wajib_retribusi', $namaFoto);
             $data['fileFoto'] = 'storage/foto_wajib_retribusi/' . $namaFoto;
         }
 
@@ -70,8 +69,8 @@ class WajibRetribusiController extends Controller
     public function update(Request $request, WajibRetribusi $wajibRetribusi)
     {
         $validator = Validator::make($request->all(), [
-            'NIK' => 'nullable|string|max:255|unique:wajib_retribusi,NIK,' . $wajibRetribusi->idWajibRetribusi,
-            'email' => 'nullable|string|email|max:255|unique:wajib_retribusi,email,' . $wajibRetribusi->idWajibRetribusi,
+            'NIK' => 'nullable|string|max:255|unique:wajib_retribusi,NIK,' . $wajibRetribusi->idWajibRetribusi . ',idWajibRetribusi',
+            'email' => 'nullable|string|email|max:255|unique:wajib_retribusi,email,' . $wajibRetribusi->idWajibRetribusi . ',idWajibRetribusi',
             'nomorWhatsapp' => 'nullable|string|max:20',
             'nomorPonsel' => 'nullable|string|max:20',
             'namaWajibRetribusi' => 'required|string|max:255',
@@ -88,11 +87,11 @@ class WajibRetribusiController extends Controller
 
         if ($request->hasFile('fileFoto')) {
             if ($wajibRetribusi->fileFoto) {
-                Storage::delete($wajibRetribusi->fileFoto);
+                Storage::delete(str_replace('storage/', 'public/', $wajibRetribusi->fileFoto));
             }
             $foto = $request->file('fileFoto');
             $namaFoto = time() . '_' . $foto->getClientOriginalName();
-            $pathFoto = $foto->storeAs('public/foto_wajib_retribusi', $namaFoto);
+            $foto->storeAs('public/foto_wajib_retribusi', $namaFoto);
             $data['fileFoto'] = 'storage/foto_wajib_retribusi/' . $namaFoto;
         }
 

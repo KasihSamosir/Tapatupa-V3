@@ -20,7 +20,6 @@ class CreateWajibRetribusiTable extends Migration
             $table->boolean('isDeleted')->default(false);
             $table->timestamps();
             $table->softDeletes();
-            $table->unsignedBigInteger('idJenisWajibRetribusi')->nullable();
         });
     }
 
