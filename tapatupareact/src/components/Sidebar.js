@@ -22,11 +22,6 @@ const Sidebar = () => {
 
         {/* Daftar menu */}
         <ul className="nav-links">
-          <li className="nav-item active">
-            <Link to="/"> {/* Link ke Dashboard */}
-              <FaThLarge /> Dashboard
-            </Link>
-          </li>
           <li className="nav-item">
             <Link to="/Jenis-permohonan">
               <FaFileAlt /> Jenis permohonan

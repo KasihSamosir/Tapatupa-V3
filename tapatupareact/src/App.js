@@ -1,7 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Layout from './components/Layout'; 
-import Dashboard from './pages/Dashboard';
 import JenisPermohonan from './pages/Jenispermohonan';
 import PermohonanSewa from './pages/PermohonanSewa';
 import WajibRetribusi from './pages/WajibRetribusi';
@@ -22,7 +21,6 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<Layout><Dashboard /></Layout>} />
         <Route path="/Jenis-permohonan" element={<Layout><JenisPermohonan /></Layout>} />
         <Route path="/permohonan-sewa" element={<Layout><PermohonanSewa /></Layout>} />
         <Route path="/wajib-retribusi" element={<Layout><WajibRetribusi /></Layout>} />
