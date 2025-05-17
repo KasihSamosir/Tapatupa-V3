@@ -1,0 +1,213 @@
+/* Background penuh */
+.admin-login-wrapper {
+  min-height: 100vh;
+  background: linear-gradient(to right, #e0eafc, #cfdef3);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+/* Card utama */
+.admin-login-card {
+  display: flex;
+  flex-direction: row;
+  width: 110%;
+  max-width: 1000px;
+  min-height: 600px; 
+  background-color: white;
+  border-radius: 15px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+/* Panel kiri */
+.admin-login-left {
+  flex: 1;
+  background-color: #004F4E;
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.admin-login-info {
+  text-align: center;
+  max-width: 300px;
+}
+
+.admin-login-info h1 {
+  font-size: 26px;
+  margin-bottom: 15px;
+  color: #ffffff;
+}
+
+.admin-login-info p {
+  font-size: 15px;
+  color: #ffffff;
+  margin-bottom: 25px;
+}
+
+.admin-login-image {
+  width: 100%;
+  max-width: 250px;
+  height: auto;
+} 
+
+/* Panel kanan */
+.admin-login-right {
+    flex: 1;
+    padding: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #ffffff;
+    box-sizing: border-box;  /* Tambahkan box-sizing */
+}
+
+.admin-login-form {
+    width: 100%;
+    max-width: 400px;
+    background-color: white;
+    padding: 30px;    /* Tambahkan padding */
+    border-radius: 10px; /* Tambahkan border-radius */
+}
+
+.admin-login-form h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #222;
+}
+
+.admin-login-group {
+  margin-bottom: 15px;
+}
+
+.admin-login-group label {
+  display: block;
+  margin-bottom: 6px;
+  color: #555;
+  font-weight: 500;
+}
+
+.admin-login-group input {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 14px;
+}
+
+.admin-login-button {
+  width: 100%;
+  padding: 12px;
+  background-color: #004F4E;
+  color: #ffffff;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+button.admin-login-button {
+  background-color: #004F4E;
+  cursor: not-allowed;
+}
+.admin-login-button:hover {
+  background-color: #006b6a;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
+}
+
+.admin-login-button:active {
+  transform: translateY(1px);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.admin-login-error {
+  background-color: #ffdddd;
+  color: #d8000c;
+  padding: 10px;
+  border: 1px solid #d8000c;
+  border-radius: 5px;
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+.admin-login-icon-group {
+    position: relative;
+    width: 100%;
+    padding: 12px 12px 12px 40px;
+    margin-bottom: 15px;  /* Tambahkan margin bottom */
+}
+
+.admin-login-icon-group input {
+    width: 100%;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 14px;
+    box-sizing: border-box;
+    height: 45px;  /* Tetapkan tinggi spesifik */
+}
+
+
+.admin-login-icon {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #888;
+    font-size: 16px;
+    pointer-events: none;
+    z-index: 1;  /* Tambahkan z-index */
+}
+
+.admin-login-icon-group input.error {
+  border-color: #dc3545;
+  background-color: #fff8f8;
+}
+
+.admin-login-error-text {
+  color: #dc3545;
+  font-size: 12px;
+  margin-top: 5px;
+  display: block;
+}
+
+/* Custom styles for toast notifications */
+.Toastify__toast {
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.Toastify__toast--success {
+  background: #004F4E;
+}
+
+.Toastify__toast--error {
+  background: #dc3545;
+}
+
+.Toastify__progress-bar {
+  background: rgba(255, 255, 255, 0.7);
+}
+
+.Toastify__toast-body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+  line-height: 1.5;
+  padding: 4px 0;
+}
+
+.Toastify__close-button {
+  opacity: 0.7;
+  transition: opacity 0.2s;
+}
+
+.Toastify__close-button:hover {
+  opacity: 1;
+}

@@ -1,10 +1,18 @@
-import React from 'react';
-import { FaThLarge, FaFileAlt, FaUser, FaMapMarkedAlt } from 'react-icons/fa';
+import React, { useState } from 'react';
+import { FaThLarge, FaFileAlt, FaUser, FaMapMarkedAlt, FaSignOutAlt } from 'react-icons/fa';
+import { Link, useNavigate } from 'react-router-dom';
 import '../CSS/Sidebar.css';
 import logo from '../assets/logo.png';
-import { Link } from 'react-router-dom'; // Pastikan ini ada!
 
 const Sidebar = () => {
+  const [showDropdown, setShowDropdown] = useState(false);
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    localStorage.removeItem('token'); // Hapus token dari localStorage
+    navigate('/login'); // Redirect ke halaman login
+  };
+
   return (
     <div className="sidebar-container">
       <div className="sidebar-content">
@@ -83,12 +91,21 @@ const Sidebar = () => {
       </div>
 
       {/* Kotak info Admin */}
-      <div className="admin-box">
+      <div className="admin-box" onClick={() => setShowDropdown(!showDropdown)}>
         <div className="admin-info">
           <FaUser className="admin-icon" />
           <span>Admin</span>
         </div>
-        <span className="dropdown-arrow">▾</span>
+        <span className={`dropdown-arrow ${showDropdown ? 'active' : ''}`}>▾</span>
+        
+        {/* Dropdown Menu */}
+        {showDropdown && (
+          <div className="admin-dropdown">
+            <button onClick={handleLogout} className="logout-button">
+              <FaSignOutAlt /> Logout
+            </button>
+          </div>
+        )}
       </div>
     </div>
   );

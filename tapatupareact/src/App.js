@@ -14,6 +14,7 @@ import JangkaWaktuSewa from './pages/JangkaWaktuSewa';
 import PeruntukanSewa from './pages/PeruntukanSewa';
 import JenisStatus from './pages/JenisStatus';
 import StatusPermohonan from './pages/StatusPermohonan';
+import AdminLogin from './components/AdminLogin';
 import './App.css'; 
 
 
@@ -34,6 +35,7 @@ function App() {
         <Route path="/peruntukan-sewa" element={<Layout><PeruntukanSewa /></Layout>} />
         <Route path="/jenis-status" element={<Layout><JenisStatus /></Layout>} />
         <Route path="/status-permohonan" element={<Layout><StatusPermohonan /></Layout>} />
+        <Route path="/login" element={<AdminLogin />} />
       </Routes>
     </Router>
   );

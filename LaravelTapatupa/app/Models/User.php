@@ -2,44 +2,44 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens, Notifiable;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
+    // Jika primary key kamu bukan 'id', tapi 'userId'
+    protected $primaryKey = 'userId';
+
+    // Jika primary key bukan auto-increment integer, atur ini
+    // protected $keyType = 'int'; // defaultnya sudah int, kalau perlu
+
+    // Jika primary key bukan auto increment
+    // public $incrementing = false;
+
+    // Kolom yang bisa diisi (mass assignable)
     protected $fillable = [
-        'name',
+        'username',
         'email',
         'password',
+        'role',
+        'token',
+        'keterangan',
+        'isDeleted',
     ];
 
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var array<int, string>
-     */
+    // Kolom yang disembunyikan saat output JSON (contoh: password)
     protected $hidden = [
         'password',
         'remember_token',
+        'token',
     ];
 
-    /**
-     * The attributes that should be cast.
-     *
-     * @var array<string, string>
-     */
+    // Casting tipe data
     protected $casts = [
+        'isDeleted' => 'boolean',
         'email_verified_at' => 'datetime',
-        'password' => 'hashed',
     ];
 }

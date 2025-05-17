@@ -13,7 +13,15 @@ use App\Http\Controllers\Api\ObjekRetribusiController;
 use App\Http\Controllers\Api\WajibRetribusiController;
 use App\Http\Controllers\Api\PermohonanSewaController;
 use App\Http\Controllers\Api\TarifObjekRetribusiController;
+use App\Http\Controllers\Auth\AdminLoginController;
 
+
+Route::post('admin/login', [AdminLoginController::class, 'login']); // Route untuk login admin
+Route::middleware(['auth:sanctum', 'admin'])->group(function () {
+    Route::get('/admin/dashboard', function () {
+        return response()->json(['message' => 'Welcome admin!']);
+    });
+});
 Route::get('/jenis-permohonan', [JenisPermohonanController::class, 'index']);
 Route::post('/jenis-permohonan', [JenisPermohonanController::class, 'store']);
 Route::resource('jenis-jangka-waktu', JenisJangkaWaktuController::class);
@@ -27,3 +35,4 @@ Route::resource('/objek-retribusi', ObjekRetribusiController::class)->except(['c
 Route::apiResource('wajib-retribusi', WajibRetribusiController::class);
 Route::apiResource('permohonan-sewa', PermohonanSewaController::class);
 Route::apiResource('tarif-objek-retribusi', TarifObjekRetribusiController::class);
+
