@@ -10,7 +10,7 @@ const Sidebar = () => {
 
   const handleLogout = () => {
     localStorage.removeItem('token'); // Hapus token dari localStorage
-    navigate('/login'); // Redirect ke halaman login
+    navigate('/admin/login'); // Redirect ke halaman login
   };
 
   return (
