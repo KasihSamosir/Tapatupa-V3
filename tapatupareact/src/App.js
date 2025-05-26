@@ -33,7 +33,7 @@ function App() {
         <Route path="/peruntukan-sewa" element={<Layout><PeruntukanSewa /></Layout>} />
         <Route path="/jenis-status" element={<Layout><JenisStatus /></Layout>} />
         <Route path="/status-permohonan" element={<Layout><StatusPermohonan /></Layout>} />
-        <Route path="/login" element={<AdminLogin />} />
+        <Route path="/admin/login" element={<AdminLogin />} />
       </Routes>
     </Router>
   );

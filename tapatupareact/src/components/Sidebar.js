@@ -9,8 +9,13 @@ const Sidebar = () => {
   const navigate = useNavigate();
 
   const handleLogout = () => {
+<<<<<<< HEAD
     localStorage.removeItem('token'); 
     navigate('/login'); 
+=======
+    localStorage.removeItem('token'); // Hapus token dari localStorage
+    navigate('/admin/login'); // Redirect ke halaman login
+>>>>>>> 7271d6d344739113cf48750de5664b55fdaca967
   };
 
   return (
