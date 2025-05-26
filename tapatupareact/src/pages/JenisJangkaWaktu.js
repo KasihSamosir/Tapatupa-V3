@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-// import { PencilSquare, Trash } from 'react-bootstrap-icons'; // di-comment dulu kalau belum install icon
-// import '../CSS/JenisJangkaWaktu.css'; // Tidak perlu kalau semua styling Bootstrap
 
 const JenisJangkaWaktu = () => {
   const [jenisJangkaWaktuList, setJenisJangkaWaktuList] = useState([]);

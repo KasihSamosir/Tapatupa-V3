@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-// import '../CSS/PermohonanSewa.css'; // Hapus atau komentari import CSS lama
 
-const API_BASE_URL = 'http://localhost:8000/api'; // Pastikan sesuai dengan URL backend Anda
+
+const API_BASE_URL = 'http://localhost:8000/api'; 
 
 const PermohonanSewa = () => {
     const [permohonanSewaList, setPermohonanSewaList] = useState([]);
@@ -47,7 +47,7 @@ const PermohonanSewa = () => {
     const fetchJenisPermohonanOptions = async () => {
         try {
             const response = await axios.get(`${API_BASE_URL}/jenis-permohonan`);
-            const data = response.data?.data || response.data || []; // Handle different API response structures
+            const data = response.data?.data || response.data || []; 
             setJenisPermohonanOptions(Array.isArray(data) ? data : []);
         } catch (error) {
             console.error("Error fetching jenis permohonan:", error);
@@ -144,14 +144,14 @@ const PermohonanSewa = () => {
         setFormData({
             idJenisPermohonan: permohonan.idJenisPermohonan,
             nomorSuratPermohonan: permohonan.nomorSuratPermohonan,
-            tanggalPengajuan: permohonan.tanggalPengajuan.split('T')[0], // Format for date input
+            tanggalPengajuan: permohonan.tanggalPengajuan.split('T')[0], 
             idWajibRetribusi: permohonan.idWajibRetribusi,
             idObjekRetribusi: permohonan.idObjekRetribusi,
             idJenisJangkaWaktu: permohonan.idJenisJangkaWaktu,
             lamaSewa: permohonan.lamaSewa,
             idPeruntukanSewa: permohonan.idPeruntukanSewa,
             idStatus: permohonan.idStatus,
-            createBy: permohonan.createBy || '', // Pastikan createBy tidak null/undefined
+            createBy: permohonan.createBy || '', 
         });
         setFormErrors({});
         setIsAdding(false);

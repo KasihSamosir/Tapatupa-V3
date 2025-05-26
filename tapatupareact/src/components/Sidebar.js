@@ -9,8 +9,8 @@ const Sidebar = () => {
   const navigate = useNavigate();
 
   const handleLogout = () => {
-    localStorage.removeItem('token'); // Hapus token dari localStorage
-    navigate('/login'); // Redirect ke halaman login
+    localStorage.removeItem('token'); 
+    navigate('/login'); 
   };
 
   return (
@@ -20,7 +20,6 @@ const Sidebar = () => {
           <img src={logo} alt="TAPATUPA Logo" className="sidebar-logo" />
         </div>
 
-        {/* Daftar menu */}
         <ul className="nav-links">
           <li className="nav-item">
             <Link to="/Jenis-permohonan">
@@ -28,7 +27,7 @@ const Sidebar = () => {
             </Link>
           </li>
           <li className="nav-item">
-            <Link to="/permohonan-sewa"> {/* Contoh link lain */}
+            <Link to="/permohonan-sewa">
               <FaFileAlt /> Permohonan sewa
             </Link>
           </li>
